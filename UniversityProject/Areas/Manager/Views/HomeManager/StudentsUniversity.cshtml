@@ -1,0 +1,120 @@
+﻿@model IEnumerable<UniversityProject.Models.MyUser>
+
+@{
+    ViewBag.Title = "StudentsUniversity";
+}
+
+<h2>StudentsUniversity</h2>
+
+<table class="table" id="#StudentTbl">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodeMelly)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RePassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRole)
+        </th>
+        <th>
+            تغییرات
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeMelly)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RePassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdRole)
+            </td>
+            <td>
+                <button type="button" class="btn btn-info FillModalForEditStudent" id="FillModalForEditStudent" onclick="FillModalForEditStudent()" data-toggle="modal" data-target="#myModal">Edit</button>
+                @Html.ActionLink("Details", "Details", new { id = item.UserId }) |
+                @Html.ActionLink("Delete", "DeleteStudent", new { id = item.UserId })
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">ویرایش دانشجو</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/HomeManager/UpdateStudent" method="post">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">نام و نام خانوادگی</label>
+                        <input type="text" id="UserId " name="UserId" style="display:none;" />
+                        <input type="text" class="form-control" id="FullName1" placeholder="نام و نام خانوادگی" name="FullName">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1"> کد ملی</label>
+                        <input type="text" class="form-control" id="CodeMelly" placeholder=" کد ملی" name="CodeMelly">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">پسورد جدید"</label>
+                        <input type="text" class="form-control" id="Password" placeholder="پسورد جدید" name="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">تکرار پسورد جدید</label>
+                        <input type="text" class="form-control" id="RePassword" placeholder="تکرار پسورد جدید" name="RePassword">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default">تایید</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".FillModalForEditStudent").click(function () {
+                var currentrow = $(this).closest("tr");
+
+                var UserId = currentrow.find("td:eq(0)").text();
+                var CodeMelly = currentrow.find("td:eq(1)").text();
+                var FullName = currentrow.find("td:eq(2)").text();
+                var Password = currentrow.find("td:eq(3)").text();
+                var RePassword = currentrow.find("td:eq(4)").text();
+
+                $("#UserId").val(UserId);
+                $("#CodeMelly").val(CodeMelly);
+                $("#FullName1").val(FullName);
+                $("#Password").val(Password);
+                $("#RePassword").val(RePassword);
+            });
+        });
+
+    </script>
+    }

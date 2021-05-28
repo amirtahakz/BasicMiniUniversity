@@ -1,0 +1,60 @@
+﻿@model IEnumerable<UniversityProject.Models.Lesson>
+
+@{
+    ViewBag.Title = "AllLesson";
+}
+
+<h2>AllLesson</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vahed)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vahed)
+        </td>
+        <td>
+            <input type="button" class="btn btn-danger" value="ChooseLesson" onclick="ChooseLesson(@item.IdLesson);"/>
+        </td>
+    </tr>
+}
+
+</table>
+<script>
+    function data() {
+        this.UserId = "";
+        this.IdLesson = "";
+    }
+    function ChooseLesson(IdLesson) {
+        var d1 = new data();
+        d1.UserId = $("#UserIdAdmin").val();
+        d1.IdLesson = IdLesson;
+        $.ajax({
+            url: '/Master/HomeMaster/SelectLesson',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(d1),
+            success: function () {
+                alert("با موفقیت انتخاب شد");
+            },
+            error: function (errorThrown) {
+                alert(errorThrown);
+            }
+        });
+    }
+</script>
